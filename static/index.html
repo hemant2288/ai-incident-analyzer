@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aetherworks SRE — Incident Analyzer Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/steampunk.css" />
+</head>
+<body>
+  <div class="steam-layer" aria-hidden="true">
+    <span class="steam-puff s1"></span>
+    <span class="steam-puff s2"></span>
+    <span class="steam-puff s3"></span>
+    <span class="steam-puff s4"></span>
+    <span class="steam-puff s5"></span>
+  </div>
+
+  <div class="workshop">
+    <header class="brass-header panel-riveted">
+      <div class="gear-cluster left" aria-hidden="true">
+        <svg class="gear gear-lg spin-slow" viewBox="0 0 100 100"><use href="#gear-icon"/></svg>
+        <svg class="gear gear-sm spin-reverse" viewBox="0 0 100 100"><use href="#gear-icon"/></svg>
+      </div>
+
+      <div class="header-center">
+        <p class="subtitle">Aetherworks Engineering Division</p>
+        <h1><span class="drop-cap">A</span>I Incident Root Cause Analyzer</h1>
+        <p class="tagline">Steam-Powered SRE Intelligence Apparatus · Est. 1889</p>
+      </div>
+
+      <div class="gear-cluster right" aria-hidden="true">
+        <svg class="gear gear-sm spin-slow" viewBox="0 0 100 100"><use href="#gear-icon"/></svg>
+        <svg class="gear gear-lg spin-reverse" viewBox="0 0 100 100"><use href="#gear-icon"/></svg>
+      </div>
+    </header>
+
+    <main class="console-grid">
+      <section class="panel panel-riveted gauge-panel">
+        <div class="panel-title">
+          <span class="ornament">❧</span> System Pressure Gauges <span class="ornament">❧</span>
+        </div>
+        <div class="gauges-row">
+          <div class="gauge-wrap">
+            <div class="gauge">
+              <div class="gauge-face">
+                <div class="gauge-ticks"></div>
+                <div class="gauge-needle" id="healthNeedle"></div>
+                <div class="gauge-hub"></div>
+              </div>
+              <p class="gauge-label">Engine Status</p>
+              <p class="gauge-value typewriter" id="healthStatus">—</p>
+            </div>
+          </div>
+
+          <div class="gauge-wrap">
+            <div class="gauge">
+              <div class="gauge-face gauge-emerald">
+                <div class="gauge-ticks"></div>
+                <div class="gauge-needle" id="versionNeedle"></div>
+                <div class="gauge-hub"></div>
+              </div>
+              <p class="gauge-label">Apparatus Version</p>
+              <p class="gauge-value typewriter" id="versionStatus">—</p>
+            </div>
+          </div>
+
+          <div class="gauge-wrap">
+            <div class="gauge">
+              <div class="gauge-face gauge-copper">
+                <div class="gauge-ticks"></div>
+                <div class="gauge-needle" id="queueNeedle"></div>
+                <div class="gauge-hub"></div>
+              </div>
+              <p class="gauge-label">Dispatch Queue</p>
+              <p class="gauge-value typewriter" id="queueStatus">0</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipe-rail" aria-hidden="true">
+          <span class="pipe-valve"></span>
+          <span class="pipe-segment"></span>
+          <span class="pipe-valve"></span>
+          <span class="pipe-segment"></span>
+          <span class="pipe-gauge-mini"></span>
+        </div>
+
+        <button type="button" class="mech-btn" id="refreshHealthBtn">
+          <span class="btn-rivet"></span>
+          <span class="btn-label">Recalibrate Gauges</span>
+          <span class="btn-rivet"></span>
+        </button>
+      </section>
+
+      <section class="panel panel-riveted dispatch-panel">
+        <div class="panel-title">
+          <span class="ornament">⚙</span> Incident Dispatch Telegraph <span class="ornament">⚙</span>
+        </div>
+
+        <form id="incidentForm" class="dispatch-form">
+          <div class="form-row">
+            <label for="incidentId">Incident Registry No.</label>
+            <input type="text" id="incidentId" name="incident_id" class="typewriter-input" placeholder="INC-2026-0001" required />
+          </div>
+
+          <div class="form-row">
+            <label for="title">Distress Signal Title</label>
+            <input type="text" id="title" name="title" class="typewriter-input" placeholder="Payment API — Pool Exhaustion" required />
+          </div>
+
+          <div class="form-row two-col">
+            <div>
+              <label for="serviceName">Affected Apparatus</label>
+              <select id="serviceName" name="service_name" class="typewriter-input">
+                <option value="payment-api">payment-api</option>
+                <option value="user-service">user-service</option>
+                <option value="default">default</option>
+              </select>
+            </div>
+            <div>
+              <label for="severity">Severity Classification</label>
+              <select id="severity" name="severity" class="typewriter-input">
+                <option value="critical">Critical — Red Alert</option>
+                <option value="high">High — Amber Warning</option>
+                <option value="medium">Medium — Caution</option>
+                <option value="low">Low — Observation</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="timestamp">Detection Chronometer</label>
+            <input type="datetime-local" id="timestamp" name="timestamp" class="typewriter-input" required />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="mech-btn mech-btn-primary" id="dispatchBtn">
+              <svg class="btn-gear spin-on-hover" viewBox="0 0 100 100" aria-hidden="true"><use href="#gear-icon"/></svg>
+              <span class="btn-label">Engage Analysis Engine</span>
+            </button>
+            <button type="button" class="mech-btn mech-btn-secondary" id="demoBtn">
+              <span class="btn-label">Load Demo Breakdown</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel panel-riveted telegraph-panel">
+        <div class="panel-title">
+          <span class="ornament">☞</span> Telegraph Output Register <span class="ornament">☜</span>
+        </div>
+        <div class="telegraph-screen" id="telegraphOutput">
+          <p class="telegraph-line system-msg">[SYSTEM] Aetherworks SRE Console initialized. Awaiting dispatch orders...</p>
+        </div>
+        <div class="telegraph-controls">
+          <button type="button" class="mech-btn mech-btn-small" id="clearLogBtn">Clear Register</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="brass-footer panel-riveted">
+      <p>Powered by Steam Intelligence · API endpoints unchanged · <a href="/docs" target="_blank">Technical Schematics</a></p>
+    </footer>
+  </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="gear-icon" viewBox="0 0 100 100">
+      <path fill="currentColor" d="M50 10l4 8 9-2 2 9 8 4-5 8 5 8-8 4-2 9-9-2-4 8-4-8-9 2-2-9-8-4 5-8-5-8 8-4 2-9 9 2zm0 18a12 12 0 1 0 0 24 12 12 0 0 0 0-24z"/>
+    </symbol>
+  </svg>
+
+  <script src="/static/js/console.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.venv/
+venv311/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/
+*.db
+.chroma/
+*.log
+.DS_Store
+.idea/
+.vscode/
