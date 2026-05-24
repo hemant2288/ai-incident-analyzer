@@ -1,4 +1,5 @@
 import logging
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -37,7 +38,8 @@ class Settings(BaseSettings):
     service_revenue_weight_default: float = 0.15
 
     api_host: str = "0.0.0.0"
-    api_port: int = 8000
+    # Cloud hosts (Render, Railway, etc.) inject PORT; default 8000 for local dev.
+    api_port: int = Field(default_factory=lambda: int(os.getenv("PORT", "8000")))
 
 
 @lru_cache

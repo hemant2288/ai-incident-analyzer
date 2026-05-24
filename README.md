@@ -102,6 +102,19 @@ Watch the **server terminal** for the full AI-generated incident report.
 
 ---
 
+## Local vs deployed URLs
+
+| Environment | API docs | Health |
+|-------------|----------|--------|
+| **Local** (you run `uvicorn`) | http://localhost:8000/docs | http://localhost:8000/ |
+| **Cloud** (Render/Railway) | `https://YOUR-APP-NAME.onrender.com/docs` | `https://YOUR-APP-NAME.onrender.com/` |
+
+`localhost` only works on your machine while the server is running. After deploy, use your **public URL** from the hosting dashboard — not `localhost`.
+
+See **[DEPLOY.md](DEPLOY.md)** for Render/Railway setup (`render.yaml` included).
+
+---
+
 ## Run & Test
 
 Use **Python 3.10–3.13** (3.14 may fail on some dependencies). From the project root with the venv activated:
@@ -305,6 +318,17 @@ If `SLACK_WEBHOOK_URL` is set, the notifier log line reads `Incident report deli
 - **Reverse proxy**: Place nginx or a cloud load balancer in front for TLS termination.
 - **Monitoring**: The `GET /` health endpoint is suitable for liveness/readiness probes.
 - **Rate limiting**: Consider adding rate limiting at the proxy layer if exposed to external webhook sources.
+
+---
+
+## Deploy (live website)
+
+1. Push latest code to GitHub.
+2. [Render](https://render.com) → New Web Service → connect `hemant2288/ai-incident-analyzer`.
+3. Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+4. Open `https://<your-service>.onrender.com/docs` (not localhost).
+
+Full steps: **[DEPLOY.md](DEPLOY.md)**
 
 ---
 
